@@ -4,11 +4,9 @@ const addRecord = async (params, body) => {
     if(body.tldr &&  body.catagory && body.type ){
         const content = {
             x: body.x || null,
-            y: body.y || null,
             z: body.z || null,
             t: String(new Date()),
             tldr: body.tldr,
-            desc: body.desc || '',
             tags: body.tags || [],
             catagory: body.catagory,
             type: body.type,
@@ -19,8 +17,8 @@ const addRecord = async (params, body) => {
         }
         const record = new table.records(content);
         const savedRecord = await record.save();
-        console.log(savedRecord);
-        return {success: true, data: {}};
+        const savedDesc = await addDetails(savedRecord.refID , body.desc);
+        return {success: true, data: {...savedRecord, ...savedDesc}};
     }
     else {
         return {
@@ -34,6 +32,10 @@ const addUser = async (params , body) => {
     return {success: true, data: {}};
 };
 
+const addDetails = async (refID, Details) => {
+    return {success: true, data: {}};
+}
+
 const getRecords = async params => {
    return {success: true, data: {}};
 };
@@ -42,10 +44,14 @@ const getUser = async params => {
     return {success: true, data: {}};
 };
 
+const getDetails = async params => {
+    return {success: true, data: {}};
+};
 
 module.exports = {
     addRecord,
     addUser,
     getRecords,
     getUser,
+    getDetails,
 };

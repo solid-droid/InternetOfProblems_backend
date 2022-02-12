@@ -1,13 +1,7 @@
 const mongoose = require('mongoose')
 
 const iop_records_schema = new mongoose.Schema({
-    //dimensions
     x:{
-        type: Number,
-        required: false,
-        default: null
-    },
-    y:{
         type: Number,
         required: false,
         default: null
@@ -21,16 +15,9 @@ const iop_records_schema = new mongoose.Schema({
         type: String,
         required: true
     },
-    //summary
     tldr : {
         type : String,
         required: true
-    },
-    //description
-    desc: {
-        type : String,
-        required: false,
-        default: ''
     },
     tags: {
         type : Array,
@@ -98,6 +85,11 @@ const iop_records_schema = new mongoose.Schema({
         required: false,
         default: false
     },
+    solved: {
+        type: Boolean,
+        required: false,
+        default: false
+    },
     metadata: {
         type: Object,
         required: false,
@@ -111,6 +103,21 @@ const iop_configs_schema = new mongoose.Schema({
         required: true
     },
     data:{
+        type: Object,
+        required: true
+    }
+});
+const iop_details_schema = new mongoose.Schema({
+    refID:{
+        type: String,
+        required: true
+    },
+    desc: {
+        type : String,
+        required: false,
+        default: ''
+    },
+    metadata:{
         type: Object,
         required: true
     }
@@ -188,4 +195,5 @@ module.exports = {
  users     :   mongoose.model('IOP_Users', iop_users_schema),
  versions  :   mongoose.model('IOP_Versions', iop_versions_schema),    
  fundings  :   mongoose.model('IOP_Fundings', iop_funding_schema),
+ details   :   mongoose.model('IOP_Details', iop_details_schema)
 };

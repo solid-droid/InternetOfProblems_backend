@@ -53,7 +53,7 @@ router.post('/addUser', async (req,res)=>{
 
 });
 
-router.get('/getRecords/:x?/:y?/:z?', async (req,res)=> {
+router.get('/getRecords/:z?/:x?', async (req,res)=> {
     try{
         const result = await methods.getRecords(req.params);
         res.status(200).json(result);
@@ -63,6 +63,17 @@ router.get('/getRecords/:x?/:y?/:z?', async (req,res)=> {
         console.log(err)
     }
 
+});
+
+router.get('/getDetails/:refID', async (req,res)=> {
+    try{
+        const result = await methods.getDetails(req.params);
+        res.status(200).json(result);
+    }
+    catch(err){
+        res.status(409).json({success: false, data: {}, error: err})
+        console.log(err)
+    }
 });
 
 router.get('/getUser', async (req,res)=> {
