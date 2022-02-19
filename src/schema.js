@@ -3,13 +3,15 @@ const mongoose = require('mongoose')
 const iop_records_schema = new mongoose.Schema({
     x:{
         type: Number,
-        required: false,
-        default: null
+        required: true,
+    },
+    y:{
+        type: Number,
+        required: true,
     },
     z:{
         type: Number,
-        required: false,
-        default: null
+        required: true,
     },
     t:{
         type: String,
@@ -23,6 +25,11 @@ const iop_records_schema = new mongoose.Schema({
         type : Array,
         required: false,
         default: []
+    },
+    tagString: {
+        type : String,
+        required: false,
+        default: ''
     },
     catagory: {
         type : String,
@@ -94,7 +101,7 @@ const iop_records_schema = new mongoose.Schema({
         type: Object,
         required: false,
         default: {}
-    },
+    }
 });
 
 const iop_configs_schema = new mongoose.Schema({
@@ -108,18 +115,111 @@ const iop_configs_schema = new mongoose.Schema({
     }
 });
 const iop_details_schema = new mongoose.Schema({
-    refID:{
-        type: String,
-        required: true
-    },
     desc: {
         type : String,
         required: false,
         default: ''
     },
-    metadata:{
+    x:{
+        type: Number,
+        required: true,
+    },
+    y:{
+        type: Number,
+        required: true,
+    },
+    z:{
+        type: Number,
+        required: true,
+    },
+    t:{
+        type: String,
+        required: true
+    },
+    tldr : {
+        type : String,
+        required: true
+    },
+    tags: {
+        type : Array,
+        required: false,
+        default: []
+    },
+    tagString: {
+        type : String,
+        required: false,
+        default: ''
+    },
+    catagory: {
+        type : String,
+        required: true
+    },
+    type: {
+        type : String,
+        required: true
+    },
+    latest: {
+        type : Boolean,
+        required: true,
+        default: true
+    },
+    refID: {
+        type : String,
+        required: false,
+        default: null
+    },
+    ver: {
+        type : String,
+        required: false,
+        default: '1.0'
+    },
+    author:{
+        type: String,
+        required: false,
+        default: null
+    },
+    controls:{
         type: Object,
         required: true
+    },
+    related : {
+        type : Array,
+        required: false,
+        default: []
+    },
+    stats:{
+        type: Object,
+        required: false,
+        default:{
+            vote: 0,
+            comments: 0,
+            details: []
+        }
+    },
+    children: {
+        type: Array,
+        required: false,
+        default: []
+    },
+    parents:{
+        type: Array,
+        required: false,
+        default: []
+    },
+    funded: {
+        type: Boolean,
+        required: false,
+        default: false
+    },
+    solved: {
+        type: Boolean,
+        required: false,
+        default: false
+    },
+    metadata: {
+        type: Object,
+        required: false,
+        default: {}
     }
 });
 
@@ -188,6 +288,7 @@ const iop_funding_schema = new mongoose.Schema({
         required: true
     }
 });
+
 
 module.exports = {
  records   :   mongoose.model('IOP_Records', iop_records_schema),
