@@ -120,6 +120,7 @@ const getRecordById = async params => {
 const searchRecords = async params => {
     const records = await table.records.find({tldr: {$regex: new RegExp(escapeRegex(params.text), 'i')}});
     return {success: true, data: records};
+    
 };
 
 function escapeRegex(text) {
