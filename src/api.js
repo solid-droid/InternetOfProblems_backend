@@ -9,6 +9,7 @@ app.use(express.json());
 app.use(express.urlencoded({ extended: false }));
 app.use(cors());
 process.env.CONTEXT = 'production';
+const port = process.env.PORT || 9000;
 
 app.get('/', async (req,res)=>{
     try{
@@ -166,7 +167,7 @@ async function initFunction(res = null) {
     });
 }
 
-initFunction();
-app.listen(9000, () => {
-    console.log(`Example app listening on port 9000`)
+app.listen(port, () => {
+    initFunction();
+    console.log(`Example app listening on port ${port}`);
 })
