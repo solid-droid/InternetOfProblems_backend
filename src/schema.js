@@ -47,7 +47,8 @@ const iop_records_schema = new mongoose.Schema({
     refID: {
         type : String,
         required: false,
-        default: null
+        default: null,
+        unique: true
     },
     ver: {
         type : String,
@@ -166,7 +167,8 @@ const iop_details_schema = new mongoose.Schema({
     refID: {
         type : String,
         required: false,
-        default: null
+        default: null,
+        unique: true
     },
     ver: {
         type : String,

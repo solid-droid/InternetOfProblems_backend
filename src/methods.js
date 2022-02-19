@@ -35,6 +35,7 @@ const addRecord = async (params, body) => {
         await (new table.configs(refID_config)).save();
         const record = new table.records(content);
         await record.save();
+        await fixY(content.x);
         return await addDetails({...content, desc: body.description || ''});
     }
     else {
@@ -45,6 +46,21 @@ const addRecord = async (params, body) => {
     }
 };
 
+const fixY = async x => {
+        let records = await table.records.find({x});
+        records = records.map(x=>({y:x.y, p:parseInt(x.parents[0] || '0') , refID: x.refID}))
+                         .sort((a,b) => a.p - b.p)
+        let y = 0;
+        records.forEach(async record => {
+            record.y = y++;
+            await table.records.findOneAndUpdate({refID: record.refID}, {y : record.y});
+            await table.details.findOneAndUpdate({refID: record.refID}, {y : record.y});
+        });
+        while(y < records.length){
+            await new Promise(r => setTimeout(r, 10));
+        }
+        return {success: true, data: records};
+};
 const updateRecord = async (body) => {
    let record = await table.records.findOne({refID: body.refID});
    let details = await table.details.findOne({refID: body.refID});
@@ -126,5 +142,6 @@ module.exports = {
     getSummary,
     getRecordById,
     searchRecords,
-    searchDetails
+    searchDetails,
+    fixY
 };
