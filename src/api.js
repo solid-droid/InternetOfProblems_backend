@@ -15,7 +15,7 @@ app.get('/', async (req,res)=>{
     try{
        res.status(200).json({
            'hello': req.hostname,
-           'this is': 'Internet of Problems',
+           'this is': process.env.HOSTNAME,
            'Back': 'End',
            success: false, data: {}
     })
