@@ -248,7 +248,7 @@ const iop_users_schema = new mongoose.Schema({
         required: false,
         default: null
      },
-    revisions:{
+    contributer:{
         type: Array,
         required: false,
         default: []
@@ -258,7 +258,7 @@ const iop_users_schema = new mongoose.Schema({
         required: false,
         default: []
     },
-    created:{
+    creator:{
         type: Array,
         required: false,
         default:[]
