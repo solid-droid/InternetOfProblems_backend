@@ -97,10 +97,7 @@ if(req.headers.origin == process.env.HOSTNAME){
             res.status(409).json({success: false, data: {}, error: err})
         }
 }else{
-    res.status(410).json({success: false, data: {
-        host: req.headers.origin,
-        allowedHost: process.env.HOSTNAME
-    }, error: 'Permission Denied'})
+    res.status(410).json({success: false, data: {}, error: 'Permission Denied'})
 }
 });
 

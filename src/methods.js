@@ -66,7 +66,9 @@ const updateRecord = async (body) => {
    let details = await table.details.findOne({refID: body.refID});
     if(record && details){
       delete body._id;
-      body.tagString = body.tags.map(x => x.name).join(' ');
+      if(body.tags){
+        body.tagString = body.tags.map(x => x.name).join(' ');
+      }
       await table.records.findOneAndUpdate({refID: body.refID}, body);
       const responce = await table.details.findOneAndUpdate({refID: body.refID}, body);
       return {success: true, data: responce};
