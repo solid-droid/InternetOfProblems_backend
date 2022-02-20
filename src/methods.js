@@ -82,10 +82,10 @@ const updateUser = async (body) => {
     return {success: true, data: responce};
 };
 const addUser = async (params , body) => {
-    let user = await table.users.find({username: body.email});
+    let user = await table.users.find({email: body.email});
     if(!user.length){
         await (new table.users(body)).save();
-        user = await table.users.find({username: body.email});
+        user = await table.users.find({email: body.email});
     }
     return {success: true, data: user};
 };

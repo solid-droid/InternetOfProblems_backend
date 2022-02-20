@@ -3,6 +3,7 @@ const cors = require('cors');
 require('dotenv').config();
 const mongoose = require('mongoose');
 const methods = require('./methods.js');
+const exposed = require('./exposed.js');
 
 const app = express();
 app.use(express.json());
@@ -203,6 +204,35 @@ if(req.headers.origin == process.env.HOSTNAME){
 }
 });
 
+///////////////////EXPOSED API ENDPOINTS/////////////////////////////
+app.get('/api/searchTLDR/:email/:text', async (req,res)=> {
+        try{
+            const result = await exposed.searchTLDR(req.params);
+            res.status(200).json(result);
+        }
+        catch(err){
+            res.status(409).json({success: false, data: {}, error: err})
+        }
+    });
+app.get('/api/searchDetails/:email/:text', async (req,res)=> {
+        try{
+            const result = await exposed.searchDetails(req.params);
+            res.status(200).json(result);
+        }
+        catch(err){
+            res.status(409).json({success: false, data: {}, error: err})
+        }
+});
+
+app.get('/api/getRecordByID/:email/:refID', async (req,res)=> {
+    try{
+        const result = await exposed.getRecordById(req.params);
+        res.status(200).json(result);
+    }
+    catch(err){
+        res.status(409).json({success: false, data: {}, error: err})
+    }
+});
 
 async function initFunction(res = null) {
     console.log('Connecting to Database');
