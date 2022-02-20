@@ -14,7 +14,7 @@ const port = process.env.PORT || 9000;
 app.get('/', async (req,res)=>{
     try{
        res.status(200).json({
-           'hello': 'there',
+           'hello': req.hostname,
            'this is': 'Internet of Problems',
            'Back': 'End',
            success: false, data: {}
