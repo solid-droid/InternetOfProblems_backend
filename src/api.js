@@ -14,7 +14,7 @@ const port = process.env.PORT || 9000;
 app.get('/', async (req,res)=>{
     try{
        res.status(200).json({
-           'hello': req.hostname,
+           'hello': req.headers.origin,
            'this is': process.env.HOSTNAME,
            'Back': 'End',
            success: false, data: {}
@@ -29,7 +29,7 @@ app.get('/', async (req,res)=>{
 app.get('/connect', async (req,res)=>  await initFunction(res));
 
 app.post('/addRecord', async (req,res)=>{
-if(req.hostname == process.env.HOSTNAME){
+if(req.headers.origin == process.env.HOSTNAME){
     try{
         const result = await methods.addRecord(req.params, req.body);
         res.status(200).json(result);
@@ -44,7 +44,7 @@ if(req.hostname == process.env.HOSTNAME){
 });
 
 app.post('/createUser', async (req,res)=>{
-if(req.hostname == process.env.HOSTNAME){
+if(req.headers.origin == process.env.HOSTNAME){
     try{
         const result = await methods.addUser(req.params, req.body);
         res.status(200).json(result);
@@ -60,7 +60,7 @@ if(req.hostname == process.env.HOSTNAME){
 });
 
 app.post('/updateRecord', async (req,res)=>{
-if(req.hostname == process.env.HOSTNAME){
+if(req.headers.origin == process.env.HOSTNAME){
     try{
         const result = await methods.updateRecord(req.body);
         res.status(200).json(result);
@@ -74,13 +74,12 @@ if(req.hostname == process.env.HOSTNAME){
 });
 
 app.post('/updateUser', async (req,res)=>{
-if(req.hostname == process.env.HOSTNAME){
+if(req.headers.origin == process.env.HOSTNAME){
     try{
         const result = await methods.updateUser(req.body);
         res.status(200).json(result);
     }catch(err){
         res.status(409).json({success: false, data: {}, error: err})
-        console.log(err)
     }
 }else{
     res.status(410).json({success: false, data: {}, error: 'Permission Denied'})
@@ -88,33 +87,30 @@ if(req.hostname == process.env.HOSTNAME){
 });
 
 app.get('/getRecords', async (req,res)=> {
-if(req.hostname == process.env.HOSTNAME){
+if(req.headers.origin == process.env.HOSTNAME){
         try{
-            console.log(req.hostname);
             const result = await methods.getRecords(req.params);
             res.status(200).json(result);
         }
         catch(err){
             res.status(409).json({success: false, data: {}, error: err})
-            console.log(err)
         }
 }else{
     res.status(410).json({success: false, data: {
-        host: req.hostname,
+        host: req.headers.origin,
         allowedHost: process.env.HOSTNAME
     }, error: 'Permission Denied'})
 }
 });
 
 app.get('/getSummary/:refID', async (req,res)=> {
-if(req.hostname == process.env.HOSTNAME){
+if(req.headers.origin == process.env.HOSTNAME){
     try{
         const result = await methods.getSummary(req.params);
         res.status(200).json(result);
     }
     catch(err){
         res.status(409).json({success: false, data: {}, error: err})
-        console.log(err)
     }
 }else{
     res.status(410).json({success: false, data: {}, error: 'Permission Denied'})
@@ -122,14 +118,13 @@ if(req.hostname == process.env.HOSTNAME){
 });
 
 app.get('/getRecordById/:refID', async (req,res)=> {
-if(req.hostname == process.env.HOSTNAME){
+if(req.headers.origin == process.env.HOSTNAME){
     try{
         const result = await methods.getRecordById(req.params);
         res.status(200).json(result);
     }
     catch(err){
         res.status(409).json({success: false, data: {}, error: err})
-        console.log(err)
     }
 }else{
     res.status(410).json({success: false, data: {}, error: 'Permission Denied'})
@@ -138,14 +133,13 @@ if(req.hostname == process.env.HOSTNAME){
 });
 
 app.get('/getDetails/:refID', async (req,res)=> {
-if(req.hostname== process.env.HOSTNAME){
+if(req.headers.origin== process.env.HOSTNAME){
     try{
         const result = await methods.getDetails(req.params);
         res.status(200).json(result);
     }
     catch(err){
         res.status(409).json({success: false, data: {}, error: err})
-        console.log(err)
     }
 }else{
     res.status(410).json({success: false, data: {}, error: 'Permission Denied'})
@@ -153,14 +147,13 @@ if(req.hostname== process.env.HOSTNAME){
 });
 
 app.get('/getUser', async (req,res)=> {
-if(req.hostname == process.env.HOSTNAME){
+if(req.headers.origin == process.env.HOSTNAME){
     try{
         const result = await methods.getUser(req.params);
         res.status(200).json(result);
     }
     catch(err){
         res.status(409).json({success: false, data: {}, error: err})
-        console.log(err)
     }
 }else{
     res.status(410).json({success: false, data: {}, error: 'Permission Denied'})
@@ -168,14 +161,13 @@ if(req.hostname == process.env.HOSTNAME){
 });
 
 app.get('/fixY/:x', async (req,res)=> {
-if(req.hostname == process.env.HOSTNAME){
+if(req.headers.origin == process.env.HOSTNAME){
     try{
         const result = await methods.fixY(req.params.x);
         res.status(200).json(result);
     }
     catch(err){
         res.status(409).json({success: false, data: {}, error: err})
-        console.log(err)
     }
 }else{
     res.status(410).json({success: false, data: {}, error: 'Permission Denied'})
@@ -184,14 +176,13 @@ if(req.hostname == process.env.HOSTNAME){
 
 
 app.get('/searchRecords/:text', async (req,res)=> {
-if(req.hostname == process.env.HOSTNAME){
+if(req.headers.origin == process.env.HOSTNAME){
     try{
         const result = await methods.searchRecords(req.params);
         res.status(200).json(result);
     }
     catch(err){
         res.status(409).json({success: false, data: {}, error: err})
-        console.log(err)
     }
 }else{
     res.status(410).json({success: false, data: {}, error: 'Permission Denied'})
@@ -199,14 +190,13 @@ if(req.hostname == process.env.HOSTNAME){
 });
 
 app.get('/searchDetails/:text', async (req,res)=> {
-if(req.hostname == process.env.HOSTNAME){
+if(req.headers.origin == process.env.HOSTNAME){
     try{
         const result = await methods.searchDetails(req.params);
         res.status(200).json(result);
     }
     catch(err){
         res.status(409).json({success: false, data: {}, error: err})
-        console.log(err)
     }
 }else{
     res.status(410).json({success: false, data: {}, error: 'Permission Denied'})
