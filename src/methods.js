@@ -75,8 +75,19 @@ const updateRecord = async (body) => {
     }
 };
 
+const updateUser = async (body) => {
+    const _id = body._id;
+    delete body._id;
+    const responce = await table.users.findOneAndUpdate({_id}, body);
+    return {success: true, data: responce};
+};
 const addUser = async (params , body) => {
-    return {success: true, data: {}};
+    let user = await table.users.find({username: body.email});
+    if(!user.length){
+        await (new table.users(body)).save();
+        user = await table.users.find({username: body.email});
+    }
+    return {success: true, data: user};
 };
 
 const addDetails = async (content) => {
@@ -120,7 +131,7 @@ const getRecordById = async params => {
 const searchRecords = async params => {
     const records = await table.records.find({tldr: {$regex: new RegExp(escapeRegex(params.text), 'i')}});
     return {success: true, data: records};
-    
+
 };
 
 function escapeRegex(text) {
@@ -144,5 +155,6 @@ module.exports = {
     getRecordById,
     searchRecords,
     searchDetails,
-    fixY
+    fixY,
+    updateUser
 };

@@ -74,8 +74,7 @@ const iop_records_schema = new mongoose.Schema({
         required: false,
         default:{
             vote: 0,
-            comments: 0,
-            details: []
+            location: []
         }
     },
     children: {
@@ -93,7 +92,7 @@ const iop_records_schema = new mongoose.Schema({
         required: false,
         default: false
     },
-    solved: {
+    verified: {
         type: Boolean,
         required: false,
         default: false
@@ -194,8 +193,7 @@ const iop_details_schema = new mongoose.Schema({
         required: false,
         default:{
             vote: 0,
-            comments: 0,
-            details: []
+            location: []
         }
     },
     children: {
@@ -213,7 +211,7 @@ const iop_details_schema = new mongoose.Schema({
         required: false,
         default: false
     },
-    solved: {
+    verified: {
         type: Boolean,
         required: false,
         default: false
@@ -226,33 +224,49 @@ const iop_details_schema = new mongoose.Schema({
 });
 
 const iop_users_schema = new mongoose.Schema({
-    username:{
-        type: String,
-        required: true
-    },
-    password:{
-        type: String,
-        required: true
-    },
     email:{
         type: String,
+        required: true,
+        unique: true
+    },
+    name:{
+        type: String,
         required: true
+    },
+    picture:{
+        type: String,
+        required: false,
+        default: null
     },
     role:{
         type: String,
-        required: true
+        required: false,
+        default: 'normal'
     },
-    contributions:{
+    location:{
+        type: String,
+        required: false,
+        default: null
+     },
+    revisions:{
         type: Array,
-        required: true
+        required: false,
+        default: []
     },
     stats:{
-        type: Object,
-        required: true,
+        type: Array,
+        required: false,
+        default: []
+    },
+    created:{
+        type: Array,
+        required: false,
+        default:[]
     },
     metadata:{
         type: Object,
-        required: true
+        required: false,
+        default: {}
     }
 });
 

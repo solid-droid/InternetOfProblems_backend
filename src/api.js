@@ -40,7 +40,7 @@ app.post('/addRecord', async (req,res)=>{
 
 });
 
-app.post('/addUser', async (req,res)=>{
+app.post('/createUser', async (req,res)=>{
     try{
         const result = await methods.addUser(req.params, req.body);
         res.status(200).json(result);
@@ -55,6 +55,16 @@ app.post('/addUser', async (req,res)=>{
 app.post('/updateRecord', async (req,res)=>{
     try{
         const result = await methods.updateRecord(req.body);
+        res.status(200).json(result);
+    }catch(err){
+        res.status(409).json({success: false, data: {}, error: err})
+        console.log(err)
+    }
+});
+
+app.post('/updateUser', async (req,res)=>{
+    try{
+        const result = await methods.updateUser(req.body);
         res.status(200).json(result);
     }catch(err){
         res.status(409).json({success: false, data: {}, error: err})
