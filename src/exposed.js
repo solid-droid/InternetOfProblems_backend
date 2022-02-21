@@ -1,7 +1,8 @@
 const table = require('./schema.js');
+const { ObjectId } = require('mongodb');
 
 const searchTLDR = async params=> {
-    const user = await getUser(params.email);
+    const user = await getUser(params.id);
     if(user){
         const records = await table.records.find({tldr: {$regex: new RegExp(escapeRegex(params.text), 'i')}});
         return {success: true, data: records};
@@ -12,7 +13,7 @@ const searchTLDR = async params=> {
 };
 
 const searchDetails = async params=> {
-    const user = await getUser(params.email);
+    const user = await getUser(params.id);
     if(user){
         const details = await table.details.find({desc: {$regex: new RegExp(escapeRegex(params.text), 'i')}});
         return {success: true, data: details};
@@ -22,7 +23,7 @@ const searchDetails = async params=> {
 };
 
 const getRecordById = async params=> {
-    const user = await getUser(params.email);
+    const user = await getUser(params.id);
     if(user){
         const details = await table.details.find({refID: params.refID});
         return {success: true, data: details};
@@ -31,8 +32,8 @@ const getRecordById = async params=> {
     }
 };
 
-const getUser = async (email) => {
-    const user = await table.users.find({email});
+const getUser = async (_id) => {
+    const user = await table.users.find({_id:ObjectId(_id)});
     return user[0];
 }
 
