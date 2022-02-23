@@ -158,10 +158,10 @@ if(req.headers.origin == process.env.HOSTNAME){
 }
 });
 
-app.get('/fixY/:x', async (req,res)=> {
+app.get('/fixY/:z/:x', async (req,res)=> {
 if(req.headers.origin == process.env.HOSTNAME){
     try{
-        const result = await methods.fixY(req.params.x);
+        const result = await methods.fixY(req.params.z,req.params.x);
         res.status(200).json(result);
     }
     catch(err){

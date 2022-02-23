@@ -18,14 +18,14 @@ const addRecord = async (params, body) => {
             parents: body.parents || [],
         }
         content.tagString = content.tags.map(x => x.name).join(' ');
-        let yConfig = (await table.configs.find({type: "x"+content.x}))[0];
+        let yConfig = (await table.configs.find({type: content.z+"x"+content.x}))[0];
         if(!yConfig){
-            await (new table.configs({type:"x"+content.x, data:{value:0}})).save();
-            yConfig = (await table.configs.find({type: "x"+content.x}))[0];
+            await (new table.configs({type:content.z+"x"+content.x, data:{value:0}})).save();
+            yConfig = (await table.configs.find({type: content.z+"x"+content.x}))[0];
             content.y = yConfig.data.value;
         } else {
             yConfig.data.value++;
-            await table.configs.findOneAndUpdate({type: "x"+content.x}, yConfig);
+            await table.configs.findOneAndUpdate({type: content.z+"x"+content.x}, yConfig);
             content.y = yConfig.data.value;
         }
         const refID_config = (await table.configs.find({type: "last_refID"}))[0];
@@ -35,7 +35,7 @@ const addRecord = async (params, body) => {
         await (new table.configs(refID_config)).save();
         const record = new table.records(content);
         await record.save();
-        await fixY(content.x);
+        await fixY(content.z,content.x);
         return await addDetails({...content, desc: body.description || ''});
     }
     else {
@@ -46,8 +46,8 @@ const addRecord = async (params, body) => {
     }
 };
 
-const fixY = async x => {
-        let records = await table.records.find({x});
+const fixY = async (z,x) => {
+        let records = await table.records.find({z,x});
         records = records.map(x=>({y:x.y, p:parseInt(x.parents[0] || '0') , refID: x.refID}))
                          .sort((a,b) => a.p - b.p)
         let y = 0;
